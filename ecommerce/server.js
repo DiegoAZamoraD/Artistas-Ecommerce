@@ -13,6 +13,9 @@ app.use(fileUpload({
     useTempFiles: true
 }))
 
+// Routes
+app.use('/user', require('./routes/UserRouter'))
+
 // Connect to mongodb
 const URI= process.env.MONGODB_URL
 mongoose.connect(URI,{
@@ -20,10 +23,6 @@ mongoose.connect(URI,{
 }, err =>{
     if(err) throw err;
     console.log('Connected to MongoDB')
-})
-
-app.get('/', (req,res)=>{
-    res.json({msg: "Welcome"})
 })
 
 
