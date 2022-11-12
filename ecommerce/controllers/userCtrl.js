@@ -76,7 +76,7 @@ const userCtrl ={
             return res.status(500).json({msg: err.message})
         }
     },
-    refreshToken: async (req, res) =>{
+    refreshToken:  (req, res) =>{
         try {
             const rf_token = req.cookies.refreshtoken;
             if(!rf_token) return res.status(400).json({msg: "Please Login or Register"})
@@ -102,6 +102,20 @@ const userCtrl ={
 
             res.json(user)
             // res.json(req.user) // id if user 
+        } catch (err) {
+            return res.status(500).json({msg: err.message})
+        }
+    },
+    addCart: async (req, res) =>{
+        try {
+            const user = await Users.findById(req.user.id)
+            if(!user) return res.status(400).json({msg: "User does not exits."})
+
+            await Users.findOneAndUpdate({_id: req.user.id}, {
+                cart: req.body.cart
+            })
+
+            return res.json({msg: "Added to cart"})
         } catch (err) {
             return res.status(500).json({msg: err.message})
         }
