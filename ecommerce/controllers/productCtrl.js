@@ -1,4 +1,4 @@
-const Products = require('../models/productModel.js')
+const Products = require('../models/productModel')
 
 // filter, sorting and paginating
 
@@ -53,7 +53,7 @@ class APIfeatures {
 }
 
 const productCtrl = {
-    getProducts: async (req, res) =>{
+    getProducts: async(req, res) =>{
         try {
             const features = new APIfeatures(Products.find(), req.query)
             .filtering().sorting().paginating()
@@ -90,7 +90,7 @@ const productCtrl = {
             return res.status(500).json({msg: err.message})
         }
     },
-    deleteProduct: async (req, res) =>{
+    deleteProduct: async(req, res) =>{
         try {
             await Products.findByIdAndDelete(req.params.id)
             res.json({msg: "Deleted a Product."})
@@ -98,12 +98,12 @@ const productCtrl = {
             return res.status(500).json({msg: err.message})
         }
     },
-    updateProduct: async (req, res) =>{
+    updateProduct: async(req, res) =>{
         try {
             const {title, price, description, content, images, category} = req.body;
             if(!images) return res.status(400).json({msg: "No image upload."})
 
-            await Products.findOneAndUpdate({_id: req.params.id},{
+            await Products.findOneAndUpdate({_id: req.params.id}, {
                 title: title.toLowerCase(), price, description, content, images, category
             })
 
